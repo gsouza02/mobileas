@@ -1,45 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
-import { useFonts } from 'expo-font';
-import Menu from './Menu';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function App() {
-  const [backgroundColor, setBackgroundColor] = useState('#4c88bd');
-  const [loaded] = useFonts({
-    Minecraft: require('./assets/fonts/Minecraft.ttf'),
-  });
-
-  const bombeamento = useState(new Animated.Value(1))[0];
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(bombeamento, {
-          toValue: 1.1,
-          duration: 750,
-          useNativeDriver: true,
-        }),
-        Animated.timing(bombeamento, {
-          toValue: 1,
-          duration: 750,
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
-  }, [bombeamento]);
+export default function Menu () {
+  const [backgroundColor, setBackgroundColor] = useState('#fff');
+  const [loaded, setLoaded] = useState(true); // Adicionei uma variável de estado para simular a condição de carregamento
 
   if (!loaded) {
     return null;
   }
 
   const iniciar = () => {
-    setBackgroundColor("#003c66");
+    setBackgroundColor('#003c66');
   };
 
   return (
-      <Menu></Menu>
+    <View style={[styles.container, { backgroundColor }]}>
+      <TouchableOpacity style={styles.button} onPress={iniciar}>
+        <Text style={styles.buttonText}>INICIAR ESTUDOS</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={iniciar}>
+        <Text style={styles.buttonText}>CRIAR FLASHCARDS</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={iniciar}>
+        <Text style={styles.buttonText}>VOLTAR</Text>
+      </TouchableOpacity>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -63,8 +50,8 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
     position: 'absolute',
-    top: '37%', 
-    left: '59%', 
+    top: '37%',
+    left: '59%',
     transform: [{ rotate: '-30deg' }],
   },
   line: {
@@ -74,7 +61,7 @@ const styles = StyleSheet.create({
     marginVertical: 7,
   },
   button: {
-    backgroundColor: '#4c88bd',
+    backgroundColor: '#003c66',
     borderWidth: 2,
     borderColor: '#e0f2ff',
     borderRadius: 20,
