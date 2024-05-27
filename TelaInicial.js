@@ -48,7 +48,7 @@ return (
       </Animated.Text>
       <View style={styles.line}></View>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TESTE')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Menu')}>
         <Text style={styles.buttonText}>INICIAR</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={iniciar}>
