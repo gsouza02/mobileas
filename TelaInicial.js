@@ -81,17 +81,16 @@ const styles = StyleSheet.create({
       textShadowColor: 'black',
       textShadowOffset: { width: 2, height: 2 },
       textShadowRadius: 2,
-      transform: [{ rotate: '-30deg' }],
       position: 'absolute',
-      top: '37%', // Ajusta a distância do topo
-      left: '60%',
+      top: '37%', 
+      left: '59%', 
+      transform: [{ rotate: '-30deg' }],
     },
     line: {
       width: '70%',
       height: 3,
       backgroundColor: '#e0f2ff',
       marginVertical: 7,
-      
     },
     button: {
       backgroundColor: '#4c88bd',
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
       marginVertical: 10,
       width: 300,
       alignItems: 'center',
-      marginVertical: 7,
     },
     buttonText: {
       color: '#e0f2ff',
