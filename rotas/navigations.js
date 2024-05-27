@@ -1,7 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import TelaInicial from "../TelaInicial";
-import SegundaTela from "./SegundaTela";
 import Menu from "../Menu"
 
 const Stack = createStackNavigator();

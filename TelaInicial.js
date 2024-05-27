@@ -51,9 +51,6 @@ return (
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Menu')}>
         <Text style={styles.buttonText}>INICIAR</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={iniciar}>
-        <Text style={styles.buttonText}>VOLTAR</Text>
-      </TouchableOpacity>
     </View>
   );
 }

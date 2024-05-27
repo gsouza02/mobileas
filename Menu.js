@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function Menu () {
-  const [backgroundColor, setBackgroundColor] = useState('#fff');
+export default function Menu ({ navigation }) {
+  const [backgroundColor, setBackgroundColor] = useState('#003c66');
   const [loaded, setLoaded] = useState(true); // Adicionei uma variável de estado para simular a condição de carregamento
 
   if (!loaded) {
@@ -21,7 +21,7 @@ export default function Menu () {
       <TouchableOpacity style={styles.button} onPress={iniciar}>
         <Text style={styles.buttonText}>CRIAR FLASHCARDS</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={iniciar}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.buttonText}>VOLTAR</Text>
       </TouchableOpacity>
     </View>
