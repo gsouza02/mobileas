@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { useFonts } from 'expo-font';
 
 export default function App() {
@@ -27,7 +27,6 @@ export default function App() {
     ).start();
   }, [bombeamento]);
 
-
   if (!loaded) {
     return null;
   }
@@ -35,12 +34,13 @@ export default function App() {
   const iniciar = () => {
     setBackgroundColor("#003c66");
   };
+
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <Text style={styles.title}>
         FLASHCARDS
       </Text>
-      <Animated.Text style={[styles.subtitle, { transform: [{ rotate: '-30deg' }, { scale: bombeamento }] }]}>
+      <Animated.Text style={[styles.subtitle, { transform: [{ scale: bombeamento }, { rotate: '-30deg' }] }]}>
         GALVÃO BUENO!
       </Animated.Text>
       <View style={styles.line}></View>
@@ -51,28 +51,6 @@ export default function App() {
       <TouchableOpacity style={styles.button} onPress={iniciar}>
         <Text style={styles.buttonText}>VOLTAR</Text>
       </TouchableOpacity>
-    </View>
-  );
-}
-
-function Iniciar({ setBackgroundColor }) {
-  const sorteio = () => {
-    setBackgroundColor('#444');
-  };
-
-  const criarConjunto = () => {
-    setBackgroundColor('#444');
-  };
-
-  const voltar = () => {
-    setBackgroundColor('#444');
-  };
-
-  return (
-    <View style={styles.container}>
-      <Button title="Iniciar Estudos" onPress={sorteio} />
-      <Button title="CRIAR FLASHCARDS" onPress={criarConjunto} />
-      <Button title="VOLTAR" onPress={voltar} />
     </View>
   );
 }
@@ -98,17 +76,16 @@ const styles = StyleSheet.create({
     textShadowColor: 'black',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 2,
+    position: 'absolute',
+    top: '37%', 
+    left: '59%', 
     transform: [{ rotate: '-30deg' }],
-    justifyContent: 1,
-    top: -54, // Ajusta a distância do topo
-    right: -110,
   },
   line: {
     width: '70%',
     height: 3,
     backgroundColor: '#e0f2ff',
     marginVertical: 7,
-    
   },
   button: {
     backgroundColor: '#4c88bd',
@@ -120,7 +97,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: 300,
     alignItems: 'center',
-    marginVertical: 7,
   },
   buttonText: {
     color: '#e0f2ff',
