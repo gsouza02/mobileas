@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 export default function Menu ({ navigation }) {
   const [backgroundColor, setBackgroundColor] = useState('#003c66');
   const [loaded, setLoaded] = useState(true); // Adicionei uma variável de estado para simular a condição de carregamento
+  const flashcards = []
 
   if (!loaded) {
     return null;
@@ -18,7 +19,7 @@ export default function Menu ({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={iniciar}>
         <Text style={styles.buttonText}>INICIAR ESTUDOS</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={iniciar}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Criar')}>
         <Text style={styles.buttonText}>CRIAR FLASHCARDS</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
