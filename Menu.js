@@ -16,9 +16,6 @@ export default function Menu ({ navigation }) {
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      <TouchableOpacity style={styles.button} onPress={iniciar}>
-        <Text style={styles.buttonText}>INICIAR ESTUDOS</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CriarTela')}>
         <Text style={styles.buttonText}>CRIAR FLASHCARDS</Text>
       </TouchableOpacity>

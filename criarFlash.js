@@ -32,6 +32,8 @@ export default function CriarFlash({navigation, route}) {
     setPergunta('');
     setResposta('');
     setErrorMessage('');
+
+    navigation.goBack();
   }
 
   return (

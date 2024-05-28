@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import EditarFlash from './EditarFlash';
 //import { flashcards, caixa1, caixa2, caixa3, setFlashcards } from './variaveis';
 
 const LimitedText = ({ text, maxLength }) => {
@@ -42,7 +43,11 @@ const FlashcardList = ({ flashcards, setFlashcards, navigation}) => {
           <LimitedText text={item.pergunta} maxLength={20} />
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Editar')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Editar', {
+            flashcards: flashcards,
+            setFlashcards: setFlashcards,
+            index: index
+          })}>
             <Text style={styles.icon}>✏️</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={(event) => { event.stopPropagation(); excluirFlashcard(index)}}>
@@ -75,11 +80,11 @@ const CriarTela = ({ navigation }) => {
         <Text style={[styles.subHeaderText, {color: flashcards.length >= 10 ? 'green' : 'red'}]}>{flashcards.length + " / 10 (Mínimo: 10)" }</Text>
         <FlashcardList flashcards={flashcards} setFlashcards={setFlashcards} navigation={navigation}/>
         <View style={styles.buttonWrapper}>
-          <TouchableOpacity  onPress={() => navigation.navigate('CriarFlash', { flashcards, setFlashcards })} style={styles.Buttons}>
+          <TouchableOpacity  onPress={() => navigation.navigate('CriarFlash', { flashcards: flashcards, setFlashcards: setFlashcards })} style={styles.Buttons}>
             <Text style={styles.buttonText}>CRIAR FLASHCARD!</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Menu')} style={styles.Buttons}>
-            <Text style={styles.buttonText}>VOLTAR!</Text>
+            <Text style={styles.buttonText}>REINICIAR!</Text>
           </TouchableOpacity>
         </View>
       </View>

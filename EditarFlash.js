@@ -1,12 +1,64 @@
+import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 
 
 export default function EditarFlash({navigation, route}){
 
-    const salvarEdicao = () =>{
+  const flashcards = route.params.flashcards;
+  const setFlashcards = route.params.setFlashcards;
+  const index = route.params.index;
+  /*const caixa1= route.params.caixa1;
+  const setCaixa1 = route.params.setCaixa1;
+  const caixa2 = route.params.caixa2;
+  const setCaixa2 = route.params.setCaixa2;
+  const caixa3 = route.params.caixa3;
+  const setCaixa3 = route.params.setCaixa3;*/
+  const [errorMessage, setErrorMessage] = useState('');
 
+    const card = flashcards[index];
+    const perguntaCard = card.pergunta 
+    const [pergunta, setNovaPergunta] = useState(perguntaCard);
+    const [resp, setNovaResp] = useState(card.resposta);
+    const caixa = card.caixa;
+
+  const salvarEdicao = () => {
+  
+    const perguntaExistente = flashcards.find(flashcard => flashcard.pergunta === pergunta);
+   
+    if(perguntaExistente){
+     if(pergunta != perguntaCard){
+      setErrorMessage('Já existe um flashcard com esta pergunta!');
+      return;
+     }
     }
+  
+    if (pergunta === '' || resp === '') {
+      setErrorMessage('Por favor, preencha tanto a pergunta quanto a resposta.');
+      return;
+    }
+  
+  
+    /*let i = 0;
+    if (caixa === 1) {
+      while(caixa1[i].pergunta != perguntaCard) i++;
+      caixa1[i] = { pergunta: pergunta, resposta: resposta, caixa: caixa};
+    } else if (caixa === 2) {
+      while(caixa2[i].pergunta != perguntaCard) i++;
+      caixa2[i] = { pergunta: pergunta, resposta: resposta, caixa: caixa};
+    } else {
+      while(caixa3[i].pergunta != perguntaCard) i++;
+      caixa3[i] = { pergunta: pergunta, resposta: resposta, caixa: caixa };
+    }*/
+  
+    
+    flashcards[index] = { pergunta: pergunta, resposta: resp, caixa: caixa };
+
+    const novoArray = [...flashcards];
+    setFlashcards(novoArray);
+
+    navigation.goBack();
+  }
     return (
         <View style={styles.container}>
           <Text style={styles.title}>Editar Flashcard</Text>
@@ -14,18 +66,22 @@ export default function EditarFlash({navigation, route}){
           <View style={[styles.inputContainer, { marginBottom: 1 }]}>
             <TextInput
               style={styles.input}
-              placeholder="Pergunta"
+              //placeholder="Pergunta"
               placeholderTextColor="white" 
-              color="white" 
+              color="white"
+              value={pergunta}
+              onChangeText={setNovaPergunta}
             />
             <TextInput
               style={styles.input}
-              placeholder="Resposta"
+              //placeholder="Resposta"
+              value={resp}
               placeholderTextColor="white" // Cor do texto do placeholder
+              onChangeText={setNovaResp}
               color="white" // Cor do texto digitado
             />
           </View>
-          <Text style={styles.errorMessage}></Text>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
           <View style={[styles.buttonContainer, { marginBottom: -10 }]}>
             <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={() => salvarEdicao()}>
               <Text style={styles.buttonText}>SALVAR</Text>
