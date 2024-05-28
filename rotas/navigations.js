@@ -5,7 +5,7 @@ import Menu from "../Menu"
 import CriarFlash from "../criarFlash.js";
 import CriarTela from "../criarTela.js"
 import EditarFlash from "../EditarFlash.js";
-import IniciarEstudos from "../iniciarEstudos.js";
+import IniciarEstudos from "../IniciarEstudos.js";
 
 const Stack = createStackNavigator();
 
