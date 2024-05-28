@@ -88,7 +88,7 @@ const CriarTela = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.Buttons2}>
+      <TouchableOpacity onPress={() => navigation.navigate('Estudos')} style={styles.Buttons2}>
       <Text style={styles.buttonText}>INICIAR ESTUDOS</Text>
       </TouchableOpacity>
     </View>
