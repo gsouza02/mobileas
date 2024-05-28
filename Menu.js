@@ -19,7 +19,7 @@ export default function Menu ({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={iniciar}>
         <Text style={styles.buttonText}>INICIAR ESTUDOS</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Criar')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CriarTela')}>
         <Text style={styles.buttonText}>CRIAR FLASHCARDS</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>

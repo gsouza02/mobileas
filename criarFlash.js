@@ -1,59 +1,133 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+//import { flashcards, caixa1 } from './variaveis';
 
-const FlashcardList = ({ flashcards }) => {
+export default function CriarFlash({navigation, route}) {
+  const [pergunta, setPergunta] = useState('');
+  const [resposta, setResposta] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const { flashcards, setFlashcards } = route.params;
+  
+  const salvarNovoFlashcard = (perguntaUser, respostaUser) => {
+    const perguntaExistente = flashcards.find(flashcard => flashcard.pergunta === perguntaUser);
+
+    if (perguntaUser === '' || respostaUser === '') {
+      setErrorMessage('Preencha tanto a pergunta quanto a resposta.');
+      return;
+    }
+
+    if (perguntaExistente) {
+      setErrorMessage('Já existe um flashcard com esta pergunta!');
+      return;
+    }
+
+    const box = 1;
+    flashcards.push({ pergunta: perguntaUser, resposta: respostaUser, caixa: box });
+    //caixa1.push({ pergunta: perguntaUser, resposta: respostaUser, caixa: box});
+
+    const newFlashcards = [...flashcards];
+    setFlashcards(newFlashcards);
+
+    // Limpar os campos após salvar
+    setPergunta('');
+    setResposta('');
+    setErrorMessage('');
+  }
+
   return (
-    <>
-      {flashcards.map((flashcard, index) => (
-        <TouchableOpacity key={index} onPress={() => {}}>
-          <View style={styles.flashcardItem}>
-            <View style={styles.pergunta}>
-
-            <Text>{flashcard.pergunta}</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={(event) => { event.stopPropagation();}}>
-                <Text>✏️       </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={(event) => { event.stopPropagation();}}>
-                <Text>❌</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+    <View style={styles.container}>
+      <Text style={styles.title}>Criar Flashcard</Text>
+      <View style={styles.line}></View>
+      <View style={[styles.inputContainer, { marginBottom: 1 }]}>
+        <TextInput
+          style={styles.input}
+          placeholder="Pergunta"
+          value={pergunta}
+          onChangeText={setPergunta}
+          placeholderTextColor="white" 
+          color="white" 
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Resposta"
+          value={resposta}
+          onChangeText={setResposta}
+          placeholderTextColor="white" // Cor do texto do placeholder
+          color="white" // Cor do texto digitado
+        />
+      </View>
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
+      <View style={[styles.buttonContainer, { marginBottom: -10 }]}>
+        <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={() => salvarNovoFlashcard(pergunta, resposta)}>
+          <Text style={styles.buttonText}>SALVAR</Text>
         </TouchableOpacity>
-      ))}
-    </>
+        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => {navigation.navigate('CriarTela')}}>
+          <Text style={styles.buttonText}>CANCELAR</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
-};
+}
 
-const CriarFlashcard = () => {
-  const flashcards = [{pergunta: 'João Marcos'}, {pergunta: 'Igreja'}];
-  return (
-    <FlashcardList flashcards={flashcards} />
-  );
-};
-
-const styles = {
-  flashcardItem: {
-    padding: 10,
-    //marginVertical: 5,
-    backgroundColor: '#eee',
-    borderRadius: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#444',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#e0f2ff', // Cor corrigida
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: '#444', 
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 10,
+    width: 300,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  errorMessage: {
+    color: 'red',
+    marginBottom: 10,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    padding: 10,
-    marginTop: 5,
-    backgroundColor: 'yellow',
-    width: '20%'
   },
-  pergunta:{
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-};
+  button: {
+    backgroundColor: '#444',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    marginLeft: 10, 
+  },
+  buttonText: {
+    color: '#e0f2ff', 
+    fontWeight: 'bold',
+  },
+  saveButton: {
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  cancelButton: {
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  line: {
+    width: '70%',
+    height: 3,
+    backgroundColor: 'white',
+    marginVertical: 15, 
+    borderWidth: 2,
+    borderColor: '#e0f2ff',
+  },
 
-export default CriarFlashcard;
+
+});

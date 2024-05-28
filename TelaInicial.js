@@ -105,4 +105,10 @@ const styles = StyleSheet.create({
       fontSize: 22,
       fontWeight: 'bold',
     },
+       line: {
+      width: '70%',
+      height: 3,
+      backgroundColor: '#e0f2ff',
+      marginVertical: 7,
+    },
   });
