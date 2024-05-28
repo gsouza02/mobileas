@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     borderColor: '#e0f2ff',
   },
   buttonText: {
-    color: '#003c66',
+    color: '#e0f2ff',
     fontSize: 18,
     fontWeight: 'bold',
   },
