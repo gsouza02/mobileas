@@ -6,7 +6,10 @@ export default function CriarFlash({navigation, route}) {
   const [pergunta, setPergunta] = useState('');
   const [resposta, setResposta] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { flashcards, setFlashcards } = route.params;
+  const flashcards = route.params.flashcards
+  const setFlashcards = route.params.setFlashcards
+  const caixa1 = route.params.caixa1
+  const setCaixa1 = route.params.setCaixa1
   
   const salvarNovoFlashcard = (perguntaUser, respostaUser) => {
     const perguntaExistente = flashcards.find(flashcard => flashcard.pergunta === perguntaUser);
@@ -23,10 +26,13 @@ export default function CriarFlash({navigation, route}) {
 
     const box = 1;
     flashcards.push({ pergunta: perguntaUser, resposta: respostaUser, caixa: box });
-    //caixa1.push({ pergunta: perguntaUser, resposta: respostaUser, caixa: box});
+    caixa1.push({ pergunta: perguntaUser, resposta: respostaUser, caixa: box});
 
     const newFlashcards = [...flashcards];
     setFlashcards(newFlashcards);
+
+    const newCaixa1 = [...caixa1];
+    setCaixa1(newCaixa1);
 
     // Limpar os campos após salvar
     setPergunta('');

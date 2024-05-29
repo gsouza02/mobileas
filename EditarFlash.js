@@ -8,12 +8,12 @@ export default function EditarFlash({navigation, route}){
   const flashcards = route.params.flashcards;
   const setFlashcards = route.params.setFlashcards;
   const index = route.params.index;
-  /*const caixa1= route.params.caixa1;
-  const setCaixa1 = route.params.setCaixa1;
+  const caixa1= route.params.caixa1;
+  //const setCaixa1 = route.params.setCaixa1;
   const caixa2 = route.params.caixa2;
-  const setCaixa2 = route.params.setCaixa2;
+  //const setCaixa2 = route.params.setCaixa2;
   const caixa3 = route.params.caixa3;
-  const setCaixa3 = route.params.setCaixa3;*/
+  //const setCaixa3 = route.params.setCaixa3;
   const [errorMessage, setErrorMessage] = useState('');
 
     const card = flashcards[index];
@@ -39,17 +39,17 @@ export default function EditarFlash({navigation, route}){
     }
   
   
-    /*let i = 0;
+    let i = 0;
     if (caixa === 1) {
       while(caixa1[i].pergunta != perguntaCard) i++;
-      caixa1[i] = { pergunta: pergunta, resposta: resposta, caixa: caixa};
+      caixa1[i] = { pergunta: pergunta, resposta: resp, caixa: caixa};
     } else if (caixa === 2) {
       while(caixa2[i].pergunta != perguntaCard) i++;
-      caixa2[i] = { pergunta: pergunta, resposta: resposta, caixa: caixa};
+      caixa2[i] = { pergunta: pergunta, resposta: resp, caixa: caixa};
     } else {
       while(caixa3[i].pergunta != perguntaCard) i++;
-      caixa3[i] = { pergunta: pergunta, resposta: resposta, caixa: caixa };
-    }*/
+      caixa3[i] = { pergunta: pergunta, resposta: resp, caixa: caixa };
+    }
   
     
     flashcards[index] = { pergunta: pergunta, resposta: resp, caixa: caixa };

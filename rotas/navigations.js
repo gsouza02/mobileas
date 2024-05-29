@@ -5,7 +5,7 @@ import Menu from "../Menu"
 import CriarFlash from "../criarFlash.js";
 import CriarTela from "../criarTela.js"
 import EditarFlash from "../EditarFlash.js";
-import IniciarEstudos from "../IniciarEstudos.js";
+import Sorteio from "../estudos.js";
 
 const Stack = createStackNavigator();
 
@@ -23,7 +23,7 @@ export default function Navigation() {
                 <Stack.Screen name="CriarTela" component={CriarTela} />
                 <Stack.Screen name="CriarFlash" component={CriarFlash} />
                 <Stack.Screen name="Editar" component={EditarFlash} />
-                <Stack.Screen name="Estudos" component={IniciarEstudos} />
+                <Stack.Screen name="Estudos" component={Sorteio} />
 
             </Stack.Navigator>
 

@@ -2,10 +2,28 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function IniciarEstudos() {
+export default function IniciarEstudos({navigation, flashcards, setFlashcards, caixa1, caixa2, caixa3, card }) {
+
   const [isFlipped, setIsFlipped] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const flipAnim = useRef(new Animated.Value(0)).current;
+  const perguntaCard = card.pergunta
+  const respostaCard = card.resposta
+  const caixaCard = card.caixa;
+
+
+  let index = 0;
+  while (flashcards[index].pergunta !== perguntaCard) index++;
+
+  let i = 0;
+  if (card.caixa === 1) {
+    while (caixa1[i].pergunta !== perguntaCard) i++;
+  } else if (card.caixa === 2) {
+    while (caixa2[i].pergunta !== perguntaCard) i++;
+  } else {
+    while (caixa3[i].pergunta !== perguntaCard) i++;
+  }
+
 
   const frontInterpolate = flipAnim.interpolate({
     inputRange: [0, 180],
@@ -44,6 +62,47 @@ export default function IniciarEstudos() {
     transform: [{ rotateY: backInterpolate }],
   };
 
+
+
+  const verificaResposta = (index, caixa, flashcardIndex, resposta) =>{
+  
+    if(!resposta) return;
+  
+    if (caixa === 1) {
+      if (resposta === caixa1[index].resposta) {
+        flashcards[flashcardIndex].caixa = 2;
+        caixa1[index].caixa = 2;
+        caixa2.push(caixa1[index]);
+        caixa1.splice(index, 1);
+       // totalCorretos++;
+      }
+    } else if (caixa === 2) {
+      if (resposta === caixa2[index].resposta) {
+        flashcards[flashcardIndex].caixa = 3;
+        caixa2[index].caixa = 3;
+        caixa3.push(caixa2[index]);
+       //totalCorretos++;
+      } else {
+        flashcards[flashcardIndex].caixa = 1;
+        caixa2[index].caixa = 1;
+        caixa1.push(caixa2[index]);
+      }
+      caixa2.splice(index, 1);
+    } else {
+      if (resposta !== caixa3[index].resposta) {
+        flashcards[flashcardIndex].caixa = 2;
+        caixa3[index].caixa = 2;
+        caixa2.push(caixa3[index]);
+        caixa3.splice(index, 1);
+      }
+    }
+
+    setInputValue('');
+        //totalRevisados++;
+    //sorteio(); 
+
+}
+
   return (
     <View style={styles.container}>
       <View style={styles.flashcardContainer}>
@@ -53,18 +112,19 @@ export default function IniciarEstudos() {
         <View style={styles.flashcardWrapper}>
           <Animated.View style={[styles.flashcard, frontAnimatedStyle]}>
             <TouchableOpacity style={styles.card} onPress={flipCard}>
-              <Text style={[styles.cardText, styles.questionText]}>PERGUNTA</Text>
-              <Text style={styles.cardText}>Frajole</Text>
+              <Text style={[styles.cardText, styles.questionText, {color: caixaCard === 3 ? 'green' : (caixaCard === 2 ? 'yellow' : 'red')}]}>PERGUNTA</Text>
+              <Text style={styles.cardText}>{card.pergunta}</Text>
             </TouchableOpacity>
           </Animated.View>
           <Animated.View style={[styles.flashcard, styles.flashcardBack, backAnimatedStyle]}>
             <TouchableOpacity style={styles.card} onPress={flipCard}>
               <Text style={[styles.cardText, styles.answerText]}>RESPOSTA</Text>
-              <Text style={styles.cardText}>Igreja</Text>
+              <Text style={styles.cardText}>{card.resposta}</Text>
             </TouchableOpacity>
           </Animated.View>
         </View>
-        <TouchableOpacity style={styles.arrowButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('Estudos', { flashcards: flashcards, setFlashcards: setFlashcards, 
+            caixa1: caixa1, caixa2: caixa2, caixa3: caixa3 })} style={styles.arrowButton}>
           <Ionicons name="chevron-forward" size={32} color="white" />
         </TouchableOpacity>
       </View>
@@ -76,11 +136,11 @@ export default function IniciarEstudos() {
           value={inputValue}
           onChangeText={setInputValue}
         />
-        <TouchableOpacity style={styles.sendButton}>
+        <TouchableOpacity onPress={() => verificaResposta(i, caixaCard, index, inputValue)} style={styles.sendButton}>
           <Text style={styles.sendButtonText}>Enviar</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
         <Text style={styles.buttonText}>FINALIZAR ESTUDOS</Text>
       </TouchableOpacity>
     </View>

@@ -11,4 +11,4 @@ No celular:
 
 verificar se o celular está na mesma rede do computador.
 Baixar o app Expo Go (iOs e Android)
-Escanear o qr code.
+Escanear o qr code (Android pelo app) (iOs pela câmera do celular).

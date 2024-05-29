@@ -12,14 +12,14 @@ const LimitedText = ({ text, maxLength }) => {
 };
 
 
-const FlashcardList = ({ flashcards, setFlashcards, navigation}) => {
+const FlashcardList = ({ flashcards, setFlashcards, navigation, caixa1, caixa2, caixa3}) => {
   const renderItem = ({ item, index}) => {
 
     const  excluirFlashcard = (index) => {
         const card = flashcards[index];
         const perguntaCard = card.pergunta;
       
-       /* let i = 0;
+        let i = 0;
         if (card.caixa === 1) {
           while(caixa1[i].pergunta != perguntaCard) i++;
           caixa1.splice(i, 1)
@@ -29,7 +29,7 @@ const FlashcardList = ({ flashcards, setFlashcards, navigation}) => {
         } else {
           while(caixa3[i].pergunta != perguntaCard) i++;
           caixa3.splice(i, 1)
-        }*/
+        }
       
         const newFlashcards = [...flashcards];
         newFlashcards.splice(index, 1);
@@ -46,7 +46,10 @@ const FlashcardList = ({ flashcards, setFlashcards, navigation}) => {
           <TouchableOpacity onPress={() => navigation.navigate('Editar', {
             flashcards: flashcards,
             setFlashcards: setFlashcards,
-            index: index
+            index: index,
+            caixa1: caixa1,
+            caixa2: caixa2,
+            caixa3: caixa3
           })}>
             <Text style={styles.icon}>✏️</Text>
           </TouchableOpacity>
@@ -72,15 +75,20 @@ const CriarTela = ({ navigation }) => {
 
 
   const [flashcards, setFlashcards] = useState([]);
+  const [caixa1, setCaixa1] = useState([])
+  const [caixa2, setCaixa2] = useState([])
+  const [caixa3, setCaixa3] = useState([])
 
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
         <Text style={styles.headerText}>LISTA DE FLASHCARDS</Text>
         <Text style={[styles.subHeaderText, {color: flashcards.length >= 10 ? 'green' : 'red'}]}>{flashcards.length + " / 10 (Mínimo: 10)" }</Text>
-        <FlashcardList flashcards={flashcards} setFlashcards={setFlashcards} navigation={navigation}/>
+        <FlashcardList flashcards={flashcards} setFlashcards={setFlashcards} navigation={navigation}
+        caixa1={caixa1} caixa2={caixa2} caixa3={caixa3}/>
         <View style={styles.buttonWrapper}>
-          <TouchableOpacity  onPress={() => navigation.navigate('CriarFlash', { flashcards: flashcards, setFlashcards: setFlashcards })} style={styles.Buttons}>
+          <TouchableOpacity  onPress={() => navigation.navigate('CriarFlash', { flashcards: flashcards, setFlashcards: setFlashcards, 
+            caixa1: caixa1, setCaixa1: setCaixa1})} style={styles.Buttons}>
             <Text style={styles.buttonText}>CRIAR FLASHCARD!</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Menu')} style={styles.Buttons}>
@@ -88,7 +96,8 @@ const CriarTela = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Estudos')} style={styles.Buttons2}>
+      <TouchableOpacity onPress={() => navigation.navigate('Estudos', { flashcards: flashcards, setFlashcards: setFlashcards, 
+            caixa1: caixa1, caixa2: caixa2, caixa3: caixa3 })} style={styles.Buttons2}>
       <Text style={styles.buttonText}>INICIAR ESTUDOS</Text>
       </TouchableOpacity>
     </View>
