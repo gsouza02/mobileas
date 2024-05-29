@@ -15,20 +15,20 @@ export default function Sorteio({navigation, route}) {
 
     if (caixa === 3) {
         index = sortearCaixa3();
-        console.log("INDEX: " + index)
-        console.log("PASOSU AQUI 3")
+       
+        
         return(<IniciarEstudos navigation={navigation} card={caixa3[index]} setFlashcards={setFlashcards} 
           caixa1={caixa1} caixa2={caixa2} caixa3={caixa3} flashcards={flashcards}/>)
       } else if (caixa === 2) {
-        console.log("PASOSU AQUI 2")
+        
         index = sortearCaixa2();
-        console.log("INDEX: " + index)
+   
         return(<IniciarEstudos navigation={navigation} flashcards={flashcards} setFlashcards={setFlashcards} 
           caixa1={caixa1} caixa2={caixa2} caixa3={caixa3} card={caixa2[index]}/>)
       } else if (caixa === 1) {
-        console.log("PASOSU AQUI 1")
+      
         index = sortearCaixa1();
-        console.log("INDEX: " + index)
+      
         return(<IniciarEstudos navigation={navigation} flashcards={flashcards} setFlashcards={setFlashcards} 
           caixa1={caixa1} caixa2={caixa2} caixa3={caixa3} card={caixa1[index]}/>)
       }
@@ -52,7 +52,7 @@ export default function Sorteio({navigation, route}) {
     } else {
       res = 3;
     }
-    console.log("res = " + res)
+
     if (res === 3) {
       if (caixa3.length === 0) {
         if (caixa2.length !== 0) result = 2;

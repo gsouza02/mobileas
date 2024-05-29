@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Animated, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function IniciarEstudos({navigation, flashcards, setFlashcards, caixa1, caixa2, caixa3, card }) {
+export default function IniciarEstudos({ navigation, flashcards, setFlashcards, caixa1, caixa2, caixa3, card }) {
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [totalCorretos, setTotalCorretos] = useState(0); 
+  const [totalRevisados, setTotalRevisados] = useState(0); 
   const flipAnim = useRef(new Animated.Value(0)).current;
   const perguntaCard = card.pergunta
   const respostaCard = card.resposta
@@ -64,24 +66,23 @@ export default function IniciarEstudos({navigation, flashcards, setFlashcards, c
 
 
 
-  const verificaResposta = (index, caixa, flashcardIndex, resposta) =>{
-  
-    if(!resposta) return;
-  
+  const verificaResposta = (index, caixa, flashcardIndex, resposta) => {
+    if (!resposta) return;
+
     if (caixa === 1) {
       if (resposta === caixa1[index].resposta) {
         flashcards[flashcardIndex].caixa = 2;
         caixa1[index].caixa = 2;
         caixa2.push(caixa1[index]);
         caixa1.splice(index, 1);
-       // totalCorretos++;
+        setTotalCorretos(totalCorretos + 1); 
       }
     } else if (caixa === 2) {
       if (resposta === caixa2[index].resposta) {
         flashcards[flashcardIndex].caixa = 3;
         caixa2[index].caixa = 3;
         caixa3.push(caixa2[index]);
-       //totalCorretos++;
+        setTotalCorretos(totalCorretos + 1); 
       } else {
         flashcards[flashcardIndex].caixa = 1;
         caixa2[index].caixa = 1;
@@ -94,15 +95,30 @@ export default function IniciarEstudos({navigation, flashcards, setFlashcards, c
         caixa3[index].caixa = 2;
         caixa2.push(caixa3[index]);
         caixa3.splice(index, 1);
+      } else {
+        setTotalCorretos(totalCorretos + 1); 
       }
-    }
+    } 
 
+    setTotalRevisados(totalRevisados + 1); 
     setInputValue('');
-        //totalRevisados++;
-    //sorteio(); 
+  };
 
-}
-
+  const handleFinalizarEstudos = () => {
+    Alert.alert(
+      'Estudos finalizados',
+      `Você acertou ${totalCorretos} de ${totalRevisados} respostas.`,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+          
+            navigation.goBack()
+          }
+        }
+      ]
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.flashcardContainer}>
@@ -112,7 +128,7 @@ export default function IniciarEstudos({navigation, flashcards, setFlashcards, c
         <View style={styles.flashcardWrapper}>
           <Animated.View style={[styles.flashcard, frontAnimatedStyle]}>
             <TouchableOpacity style={styles.card} onPress={flipCard}>
-              <Text style={[styles.cardText, styles.questionText, {color: caixaCard === 3 ? 'green' : (caixaCard === 2 ? 'yellow' : 'red')}]}>PERGUNTA</Text>
+              <Text style={[styles.cardText, styles.questionText, { color: caixaCard === 3 ? 'green' : (caixaCard === 2 ? 'yellow' : 'red') }]}>PERGUNTA</Text>
               <Text style={styles.cardText}>{card.pergunta}</Text>
             </TouchableOpacity>
           </Animated.View>
@@ -123,8 +139,10 @@ export default function IniciarEstudos({navigation, flashcards, setFlashcards, c
             </TouchableOpacity>
           </Animated.View>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Estudos', { flashcards: flashcards, setFlashcards: setFlashcards, 
-            caixa1: caixa1, caixa2: caixa2, caixa3: caixa3 })} style={styles.arrowButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('Estudos', {
+          flashcards: flashcards, setFlashcards: setFlashcards,
+          caixa1: caixa1, caixa2: caixa2, caixa3: caixa3
+        })} style={styles.arrowButton}>
           <Ionicons name="chevron-forward" size={32} color="white" />
         </TouchableOpacity>
       </View>
@@ -136,13 +154,15 @@ export default function IniciarEstudos({navigation, flashcards, setFlashcards, c
           value={inputValue}
           onChangeText={setInputValue}
         />
-        <TouchableOpacity onPress={() => verificaResposta(i, caixaCard, index, inputValue)} style={styles.sendButton}>
+        <TouchableOpacity onPress={() => verificaResposta(i, caixaCard, index, inputValue)} style={styles
+          .sendButton}>
           <Text style={styles.sendButtonText}>Enviar</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+      <TouchableOpacity onPress={handleFinalizarEstudos} style={styles.button}>
         <Text style={styles.buttonText}>FINALIZAR ESTUDOS</Text>
       </TouchableOpacity>
+      
     </View>
   );
 }
@@ -160,15 +180,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    marginBottom: 10, // Adjusted margin bottom
+    marginBottom: 10, 
   },
   flashcardWrapper: {
-    width: 250, 
+    width: 250,
     height: 350,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
   },
+
   flashcard: {
     width: '100%',
     height: '100%',
@@ -208,7 +229,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 0, 
+    marginTop: 0,
   },
   input: {
     flex: 1,
@@ -248,3 +269,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
