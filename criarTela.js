@@ -78,6 +78,17 @@ const CriarTela = ({ navigation }) => {
   const [caixa1, setCaixa1] = useState([])
   const [caixa2, setCaixa2] = useState([])
   const [caixa3, setCaixa3] = useState([])
+  const [msgErro, setMsgErro] = useState([])
+
+  const verificacao = () =>{
+    if (flashcards.length >= 10) {
+      navigation.navigate('Estudos', { flashcards: flashcards, setFlashcards: setFlashcards, 
+            caixa1: caixa1, caixa2: caixa2, caixa3: caixa3 });
+      if(msgErro) setMsgErro('');
+    } else {
+      setMsgErro('Você precisa ter pelo menos 10 flashcards.');
+    }
+  }
 
   return (
     <View style={styles.screen}>
@@ -96,8 +107,8 @@ const CriarTela = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Estudos', { flashcards: flashcards, setFlashcards: setFlashcards, 
-            caixa1: caixa1, caixa2: caixa2, caixa3: caixa3 })} style={styles.Buttons2}>
+      {msgErro ? <Text style={styles.errorText}>{msgErro}</Text> : null}
+      <TouchableOpacity onPress={verificacao} style={styles.Buttons2}>
       <Text style={styles.buttonText}>INICIAR ESTUDOS</Text>
       </TouchableOpacity>
     </View>
@@ -185,6 +196,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
+    alignContent: 'center'}
 
 
 });
